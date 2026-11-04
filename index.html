@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="notebook">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#FAF8F5" id="meta-theme-color" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="IronNote" />
+  <title>IronNote — Workout Notebook &amp; Weekly Volume</title>
+  <link rel="icon" type="image/svg+xml" href="./icon.svg" />
+  <link rel="apple-touch-icon" href="./icon.svg" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Top Header -->
+    <header class="top-bar">
+      <div class="brand">
+        <img src="./icon.svg" alt="" class="brand-icon" width="28" height="28" />
+        <div>
+          <h1 class="brand-title">IronNote</h1>
+          <p class="brand-sub">Training Log</p>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <button type="button" class="bw-pill" id="btn-edit-bw" title="Set your bodyweight for BW &amp; weighted pull-up volume">
+          <span class="bw-pill-label">BW</span>
+          <strong id="header-bw-val">175 lb</strong>
+        </button>
+        <button type="button" class="icon-btn" id="btn-theme-toggle" aria-label="Toggle dark gym theme" title="Switch Notebook / Dark Gym mode">
+          <svg id="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg id="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" hidden><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Week Selector + Live Weekly Pulse Strip -->
+    <section class="week-strip" id="week-strip" aria-label="Selected training week">
+      <div class="week-nav-row">
+        <button type="button" class="week-arrow" id="btn-prev-week" aria-label="Previous week">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <div class="week-title-wrap">
+          <span class="week-tag" id="week-relative-tag">This Week</span>
+          <span class="week-dates" id="week-date-range">Nov 2 – 8</span>
+        </div>
+        <div class="week-right-controls">
+          <button type="button" class="today-chip" id="btn-jump-this-week" hidden>Today</button>
+          <button type="button" class="week-arrow" id="btn-next-week" aria-label="Next week">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mini Summary Strip (Clickable -> jumps to Weekly Report) -->
+      <button type="button" class="pulse-ribbon" id="btn-pulse-ribbon" title="View full end-of-week volume &amp; hardness report">
+        <div class="pulse-metric">
+          <span class="pulse-kicker">Week Volume</span>
+          <strong class="pulse-val" id="pulse-volume">0 lb</strong>
+        </div>
+        <div class="pulse-divider"></div>
+        <div class="pulse-metric">
+          <span class="pulse-kicker">Working Sets</span>
+          <strong class="pulse-val" id="pulse-sets">0 sets</strong>
+        </div>
+        <div class="pulse-divider"></div>
+        <div class="pulse-metric pulse-metric-effort">
+          <span class="pulse-kicker">Week Hardness</span>
+          <strong class="pulse-val" id="pulse-hardness">— / 10</strong>
+        </div>
+      </button>
+    </section>
+
+    <!-- Main Tab Views -->
+    <main class="main-content">
+      <!-- TAB 1: NOTEBOOK LOG -->
+      <section id="view-log" class="tab-view active" aria-labelledby="nav-log">
+        <!-- Quick Start Bar -->
+        <div class="quick-start-card">
+          <div class="quick-start-top">
+            <button type="button" class="btn-primary-log" id="btn-open-new-workout">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>Log Workout</span>
+            </button>
+          </div>
+          <div class="quick-split-row" aria-label="Quick start by split">
+            <span class="quick-split-label">Quick start:</span>
+            <button type="button" class="split-chip" data-quick-split="Push">→ Push</button>
+            <button type="button" class="split-chip" data-quick-split="Pull">→ Pull</button>
+            <button type="button" class="split-chip" data-quick-split="Leg">→ Leg</button>
+            <button type="button" class="split-chip" data-quick-split="Upper">→ Upper</button>
+          </div>
+        </div>
+
+        <!-- Notebook Pages List -->
+        <div id="workout-list" class="notebook-list"></div>
+      </section>
+
+      <!-- TAB 2: END-OF-WEEK VOLUME & HARDNESS ESTIMATE -->
+      <section id="view-week" class="tab-view" aria-labelledby="nav-week" hidden>
+        <div id="weekly-report-container"></div>
+      </section>
+
+      <!-- TAB 3: EXERCISE PROGRESS & SETTINGS -->
+      <section id="view-lifts" class="tab-view" aria-labelledby="nav-lifts" hidden>
+        <div id="lifts-container"></div>
+      </section>
+    </main>
+
+    <!-- Bottom Mobile Navigation -->
+    <nav class="bottom-nav" aria-label="Primary navigation">
+      <button type="button" class="nav-tab active" id="nav-log" data-tab="log">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path><line x1="8" y1="7" x2="16" y2="7"></line><line x1="8" y1="11" x2="16" y2="11"></line></svg>
+        <span>Notebook</span>
+      </button>
+      <button type="button" class="nav-tab" id="nav-week" data-tab="week">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+        <span>Week Report</span>
+      </button>
+      <button type="button" class="nav-tab" id="nav-lifts" data-tab="lifts">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+        <span>Lifts &amp; Data</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- WORKOUT COMPOSER / EDITOR MODAL SHEET -->
+  <div class="sheet-backdrop" id="workout-modal" hidden>
+    <div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="sheet-header">
+        <div>
+          <h2 class="sheet-title" id="modal-title">Log Workout</h2>
+          <p class="sheet-subtitle" id="modal-live-summary">0 exercises · 0 lb volume</p>
+        </div>
+        <button type="button" class="icon-btn" id="btn-close-modal" aria-label="Close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <form id="workout-form" class="sheet-body" novalidate>
+        <div class="form-row-2col">
+          <label class="field-label">
+            <span>Date</span>
+            <input type="date" id="input-workout-date" class="text-input" required />
+          </label>
+          <label class="field-label">
+            <span>Split / Day</span>
+            <select id="input-workout-split" class="text-input">
+              <option value="Push">Push</option>
+              <option value="Pull">Pull</option>
+              <option value="Leg">Leg</option>
+              <option value="Upper">Upper</option>
+              <option value="Lower">Lower</option>
+              <option value="Full">Full Body</option>
+              <option value="Other">Other</option>
+            </select>
+          </label>
+        </div>
+
+        <!-- Copy Last Same-Split Template Banner -->
+        <div id="copy-last-banner" class="copy-last-banner" hidden>
+          <span id="copy-last-text">Repeat last Push exercises?</span>
+          <button type="button" class="btn-copy-last" id="btn-copy-last">Autofill Last</button>
+        </div>
+
+        <!-- Quick Exercise Tap Pills -->
+        <div class="Quick-suggestions-wrap">
+          <div class="field-kicker">Tap to add exercise:</div>
+          <div id="exercise-suggestions" class="suggestion-chips"></div>
+        </div>
+
+        <!-- Exercise Rows Container -->
+        <div class="composer-columns-head">
+          <span>Exercise / Weight · Reps · Sets</span>
+          <span>Line Vol</span>
+        </div>
+        <div id="composer-rows" class="composer-rows"></div>
+
+        <button type="button" class="btn-add-line" id="btn-add-exercise-row">
+          + Add Exercise Line
+        </button>
+
+        <div class="weight-hint-box">
+          <strong>Tips:</strong> Tap <code>+ Diff Weight / Reps</code> on any exercise for ramp-ups, top sets, or drop sets. Weight accepts <code>200</code>, <code>bw</code>, <code>bw + 45</code>, or <code>×2 DB</code>.
+        </div>
+
+        <!-- Optional Session Effort (RPE) -->
+        <div class="effort-picker-block">
+          <div class="effort-picker-head">
+            <span>How hard did this session feel? <small>(optional)</small></span>
+            <strong id="rpe-selected-label">Solid (8)</strong>
+          </div>
+          <div class="rpe-chips" id="rpe-chips">
+            <button type="button" class="rpe-chip" data-rpe="">Auto</button>
+            <button type="button" class="rpe-chip" data-rpe="6">Easy · 6</button>
+            <button type="button" class="rpe-chip" data-rpe="7.5">Moderate · 7.5</button>
+            <button type="button" class="rpe-chip active" data-rpe="8">Hard · 8</button>
+            <button type="button" class="rpe-chip" data-rpe="9">Heavy · 9</button>
+            <button type="button" class="rpe-chip" data-rpe="10">Max · 10</button>
+          </div>
+        </div>
+
+        <label class="field-label">
+          <span>Session Note <small>(optional)</small></span>
+          <input type="text" id="input-workout-notes" class="text-input" placeholder="e.g. Felt strong on chest press, shoulder felt good" maxlength="140" />
+        </label>
+
+        <div class="sheet-footer">
+          <button type="button" class="btn-secondary" id="btn-cancel-modal">Cancel</button>
+          <button type="submit" class="btn-save-workout" id="btn-save-workout">Save to Notebook</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- BODYWEIGHT QUICK MODAL -->
+  <div class="sheet-backdrop" id="bw-modal" hidden>
+    <div class="sheet-panel sheet-panel-compact" role="dialog" aria-modal="true" aria-labelledby="bw-modal-title">
+      <div class="sheet-header">
+        <h2 class="sheet-title" id="bw-modal-title">Your Bodyweight</h2>
+        <button type="button" class="icon-btn" id="btn-close-bw" aria-label="Close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <form id="bw-form" class="sheet-body">
+        <p class="helper-para">
+          Used to calculate real poundage when you log <code>bw</code> (e.g. Back extension) or <code>bw + 45 lb</code> (e.g. Weighted pull-ups), and to calibrate your Weekly Hardness score to your size.
+        </p>
+        <label class="field-label">
+          <span>Bodyweight (lb)</span>
+          <input type="number" id="input-bw" class="text-input text-input-lg" min="60" max="500" step="0.5" inputmode="decimal" required />
+        </label>
+        <div class="sheet-footer">
+          <button type="button" class="btn-secondary" id="btn-cancel-bw">Cancel</button>
+          <button type="submit" class="btn-save-workout">Update Bodyweight</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Datalist for Exercise Autocomplete -->
+  <datalist id="all-exercises-datalist"></datalist>
+
+  <!-- Toast feedback -->
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script type="module" src="./app.js"></script>
+  <script>
+    if (window.location.protocol === 'file:') {
+      var s = document.createElement('script');
+      s.src = './app-standalone.js';
+      document.body.appendChild(s);
+    }
+  </script>
+</body>
+</html>

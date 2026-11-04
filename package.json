@@ -1,0 +1,10 @@
+{
+  "name": "ironnote-workout-tracker",
+  "version": "1.0.0",
+  "description": "Lightweight mobile-first workout notebook with weekly volume and hardness estimation",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test test.js"
+  }
+}
